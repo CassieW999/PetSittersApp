@@ -6,7 +6,12 @@ import AddTodo from "./screens/AddTodo";
 import Notification from "./screens/Notification";
 import Profile from "./screens/Profile";
 import IconButton from "./component/IconButton";
-import { AntDesign, Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Entypo,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -19,7 +24,7 @@ const BottomTabs = createBottomTabNavigator();
 const ScreenOverView = () => {
   return (
     <BottomTabs.Navigator
-      screenOptions={({ navigation }) => ({
+      screenOptions={({ navigation, route }) => ({
         headerStyle: { backgroundColor: "FFCCFF" },
         headerTintColor: "#AF7AC5",
         tabBarStyle: { backgroundColor: "FFCCFF" },
@@ -28,25 +33,33 @@ const ScreenOverView = () => {
         headerRight: ({ tintColor }) => {
           return (
             <View style={styles.container}>
-            <IconButton
-              icon="add"
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                navigation.navigate("CreatPost");
-              }}
-            />
-            
-            <IconButton
-              icon="location"
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                // navigation.navigate("");
-              }}
-            />
+              {(route.name === "homePage" || route.name === "Todo") && (
+                <IconButton
+                  icon="add"
+                  size={24}
+                  color={tintColor}
+                  onPress={() => {
+                    if (route.name === "Todo") {
+                      navigation.navigate("addTodo");
+                    } else {
+                      navigation.navigate("CreatPost");
+                    }
+                  }}
+                />
+              )}
 
-            {/* <IconButton
+              {route.name === "homePage" && (
+                <IconButton
+                  icon="location"
+                  size={24}
+                  color={tintColor}
+                  onPress={() => {
+                    // navigation.navigate("");
+                  }}
+                />
+              )}
+
+              {/* <IconButton
               icon="location"
               size={24}
               color={tintColor}
@@ -66,23 +79,23 @@ const ScreenOverView = () => {
           title: "Home",
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => {
-            return <AntDesign name="home" size={18} color = {color} />;
+            return <AntDesign name="home" size={18} color={color} />;
           },
         }}
       />
       <BottomTabs.Screen
-        name= "Todo"
+        name="Todo"
         component={TodoList}
         options={{
           title: "Todo",
           tabBarLabel: "Todo",
           tabBarIcon: ({ color }) => {
-            return <Entypo name="list" size={18} color= {color} />;
+            return <Entypo name="list" size={18} color={color} />;
           },
         }}
       />
       <BottomTabs.Screen
-        name= "Notification"
+        name="Notification"
         component={Notification}
         options={{
           title: "Notification",
@@ -93,13 +106,15 @@ const ScreenOverView = () => {
         }}
       />
       <BottomTabs.Screen
-        name= "Profile"
+        name="Profile"
         component={Profile}
         options={{
           title: "Profile",
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => {
-            return <MaterialCommunityIcons name="account" size={18} color={color} />;
+            return (
+              <MaterialCommunityIcons name="account" size={18} color={color} />
+            );
           },
         }}
       />
@@ -163,5 +178,4 @@ const styles = StyleSheet.create({
     // height: "100%",
     flexDirection: "row",
   },
-
 });
