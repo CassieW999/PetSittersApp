@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import React from "react";
-import color from "../helper/color";
+// import color from "../helper/color";
 
 const Home = () => {
 
