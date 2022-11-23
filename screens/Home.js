@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import React, { useState, useEffect} from "react";
 import { onSnapshot, collection} from "firebase/firestore";
 import { firestore } from "../firebase/firebase_setup";
@@ -26,7 +26,7 @@ const Home = ({navigation}) => {
           querySnapshot.docs.map((snapDoc) => {
             let data = snapDoc.data(); 
             data = {...data}
-            return 
+            return data
           })
         ); 
       }
@@ -41,11 +41,11 @@ const Home = ({navigation}) => {
     <View style={styles.container}>
       <FlatList data = {posts}
         renderItem = {({item}) => {
+          console.log("item is", item)
           return (
             <PostItem post={item} PressedPost={()=>{
               onPressPost(item)
             }}/>
-
           )} }>
 
       </FlatList>
