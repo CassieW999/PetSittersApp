@@ -1,28 +1,18 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId} from "@env"
-
-
-
-// apiKey = "AIzaSyAvljflyiPiFCLhUIodcHY_RPvK9w1qeiQ"
-// authDomain = "cs5520-b155a.firebaseapp.com"
-// projectId = "cs5520-b155a"
-// storageBucket = "cs5520-b155a.appspot.com"
-// messagingSenderId = "278582328845"
-// appId = "1:278582328845:web:ad7fedf80bbd3795289f44"
-// measurementId = "G-L039FZXRQX"
+import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId} from "@env"
 
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAvljflyiPiFCLhUIodcHY_RPvK9w1qeiQ",
-    authDomain: "cs5520-b155a.firebaseapp.com",
-    projectId: "cs5520-b155a",
-    storageBucket:  "cs5520-b155a.appspot.com",
-    messagingSenderId: "278582328845",
-    appId: "1:278582328845:web:ad7fedf80bbd3795289f44",
-    measurementId: "G-L039FZXRQX"
+    apiKey: apiKey,
+    authDomain: authDomain,
+    projectId: projectId,
+    storageBucket:  storageBucket,
+    messagingSenderId: messagingSenderId,
+    appId: appId,
+    measurementId: measurementId
 };
 
 console.log("apiKey:", firebaseConfig)
