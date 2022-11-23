@@ -1,9 +1,8 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import React, { useState, useEffect} from "react";
-import {collection, setOptions} from 'firebase/firebase'
 import { onSnapshot, collection} from "firebase/firestore";
 import { firestore } from "../firebase/firebase_setup";
-import PostItem from '../components/PostItem'; 
+import PostItem from '../component/PostItem'; 
 
 const Home = ({navigation}) => {
 
