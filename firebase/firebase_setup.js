@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId} from "@env"
+// import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId} from "@env"
+import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId} from "react-native-dotenv"
 
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: apiKey,
     authDomain: authDomain,
@@ -14,8 +14,6 @@ const firebaseConfig = {
     appId: appId,
     measurementId: measurementId
 };
-
-console.log("apiKey:", firebaseConfig)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
