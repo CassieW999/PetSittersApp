@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Button, Alert} from "react-native";
 import React from "react";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import { updateAcceptToDB } from '../firebase/firebase';
 
 
 const PostDetails = ({route, navigation}) => {
@@ -18,15 +19,15 @@ const markAsAccept = async()=>{
 
 const onPressAccept = () => {
   Alert.alert(
-    'Mark as Accept to Todo?', 
-    'Are you sure you want to mark it Accept?',
+    'Accept to pet sitting?', 
+    'Are you sure to provide petsitting?',
     [{
       text: "Cancel",
       onPress: () => {},
       style: "cancel",
     },
     {
-      text: "Yes",
+      text: "Confirm",
       onPress: () => {markAsAccept()},
       style: "done",
     }

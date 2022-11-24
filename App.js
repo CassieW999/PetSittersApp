@@ -39,7 +39,7 @@ const ScreenOverView = () => {
         headerRight: ({ tintColor }) => {
           return (
             <View style={styles.container}>
-              {(route.name === "homePage" || route.name === "Todo") && (
+              {(route.name === "homePage" ) && (
                 <IconButton
                   icon="add"
                   size={24}
@@ -68,15 +68,6 @@ const ScreenOverView = () => {
               {route.name === "Profile" && (
                 <Button title="Logout" onPress={() => signOut(auth)} />
               )}
-
-              {/* <IconButton
-              icon="location"
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                // navigation.navigate("");
-              }}
-            /> */}
             </View>
           );
         },

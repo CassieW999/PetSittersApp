@@ -44,6 +44,7 @@ const Home = ({navigation}) => {
         <FlatList data = {posts}
           renderItem = {({item}) => {
             return (
+              item.isAccepted ? null : 
               <PostItem post={item} PressedPost={()=>{
                 onPressPost(item)
               }}
