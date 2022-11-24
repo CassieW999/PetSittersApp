@@ -2,7 +2,7 @@
 
 ## Team Member
 
-Huajuan Chen, Chen Yang, Luhan Wen, www
+Huajuan Chen, Chen Yang, Luhan Wen
 
 ## Introduction
 
