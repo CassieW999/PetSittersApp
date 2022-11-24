@@ -3,7 +3,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import React, {useState} from "react";
 import { writePostToDB } from '../firebase/firebase';
 
-
 const CreatPost = ({navigation}) => {
 
   const [from, setFrom] = useState(new Date())
@@ -11,6 +10,12 @@ const CreatPost = ({navigation}) => {
   const [location, setLocation] = useState("")
   const [pet, setPet] = useState("")
   const [description, setDescription] = useState("")
+
+  const selectedColor = "blue";
+  const unselectedColor = "purple";
+  const [dogButtonColor, setDogButtonColor] = useState(unselectedColor)
+  const [catButtonColor, setCatButtonColor] = useState(unselectedColor)
+  const [bothButtonColor, setBothButtonColor] = useState(unselectedColor)
 
 
   const onAdd = async (from, to, location, pet, description)=>{
@@ -36,14 +41,23 @@ const CreatPost = ({navigation}) => {
   };
 
   const pressedDog = () =>{
+    setDogButtonColor(selectedColor)
+    setCatButtonColor(unselectedColor)
+    setBothButtonColor(unselectedColor)
     setPet("dog")
   }
 
   const pressedCat = () =>{
+    setDogButtonColor(unselectedColor)
+    setCatButtonColor(selectedColor)
+    setBothButtonColor(unselectedColor)
     setPet("cat")
   }
 
   const pressedBoth = () =>{
+    setDogButtonColor(unselectedColor)
+    setCatButtonColor(unselectedColor)
+    setBothButtonColor(selectedColor)
     setPet("both")
   }
 
@@ -75,9 +89,9 @@ const CreatPost = ({navigation}) => {
 
       <View style = {styles.petContainer}>
         <Text style={styles.textStyle}>Pet Type: </Text>
-        <View style={styles.buttonStyle}><Button  title="Dog" onPress={pressedDog} color = "purple" /></View>
-        <View style={styles.buttonStyle}><Button title="Cat" onPress={pressedCat} color = "purple"  /></View>
-        <View style={styles.buttonStyle}><Button title="Both" onPress={pressedBoth} color = "purple"  /></View>
+        <View style={styles.buttonStyle}><Button  title="Dog" onPress={pressedDog} color = {dogButtonColor} /></View>
+        <View style={styles.buttonStyle}><Button title="Cat" onPress={pressedCat} color = {catButtonColor}  /></View>
+        <View style={styles.buttonStyle}><Button title="Both" onPress={pressedBoth} color = {bothButtonColor}  /></View>
       </View>
        
       <View style = {styles.descriptionContainer}>
