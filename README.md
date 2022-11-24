@@ -16,6 +16,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 ## Screens
 
 - **Home**: user could switch identity as a pet owner or pet sitter to see posts
+
 - **Profile**: user’s information such as username, location, etc.
 - **Notification**: user will be notified when the pet sitter is interested in the post
 - **Create Post**: user could create a post for looking for a pet sitter or being a pet sitter
