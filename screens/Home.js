@@ -11,7 +11,8 @@ const Home = ({navigation}) => {
 
   // when press the post, go to the post detail page 
   const onPressPost = (post) =>{
-    navigation.navigate("PostDetail")
+    navigation.navigate("postDetails", {postObject:post})
+ 
   }
   // get post data from firebase 
   useEffect(() => {
@@ -25,7 +26,7 @@ const Home = ({navigation}) => {
         setPosts(
           querySnapshot.docs.map((snapDoc) => {
             let data = snapDoc.data(); 
-            data = {...data}
+            data = {...data, key: snapDoc.id}
             return data
           })
         ); 
@@ -39,17 +40,17 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList data = {posts}
-        renderItem = {({item}) => {
-          console.log("item is", item)
-          return (
-            <PostItem post={item} PressedPost={()=>{
-              onPressPost(item)
-            }}/>
-          )} }>
-
-      </FlatList>
-      
+      <View style={styles.postContainer}>
+        <FlatList data = {posts}
+          renderItem = {({item}) => {
+            return (
+              <PostItem post={item} PressedPost={()=>{
+                onPressPost(item)
+              }}
+              />
+            )}}>
+        </FlatList>
+      </View>
     </View>
   );
 };
@@ -57,10 +58,18 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     padding: 8,
-    paddingTop: 30,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "lightgrey",
     height: "100%",
+    
   },
+
+  postContainer: {
+    marginTop: 20,
+    width: "100%",
+    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
 });
 

@@ -19,6 +19,14 @@ export async function deletePostFromDB(key) {
     }
 }
 
+export async function updateAcceptToDB(key, change) {
+    try {
+        await updateDoc(doc(firestore, "posts", key), change);
+      } catch (err) {
+        console.log(err);
+      }
+}
+
 // todoiterm apis
 export async function writeToDoItemToDB(todoiterm) {
     try {
