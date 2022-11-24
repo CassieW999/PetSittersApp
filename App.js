@@ -6,6 +6,10 @@ import AddTodo from "./screens/AddTodo";
 import Notification from "./screens/Notification";
 import Profile from "./screens/Profile";
 import IconButton from "./component/IconButton";
+import Login from "./component/login";
+import Signup from "./component/signup";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase/firebase_setup";
 import {
   AntDesign,
   Entypo,
@@ -15,7 +19,9 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+
 
 // Define vars
 const Stack = createNativeStackNavigator();
@@ -57,6 +63,10 @@ const ScreenOverView = () => {
                     // navigation.navigate("");
                   }}
                 />
+              )}
+
+              {route.name === "Profile" && (
+                <Button title="Logout" onPress={() => signOut(auth)} />
               )}
 
               {/* <IconButton
@@ -123,50 +133,80 @@ const ScreenOverView = () => {
 };
 
 export default function App() {
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsUserAuthenticated(true);
+      } else {
+        setIsUserAuthenticated(false);
+      }
+    });
+  });
+
+  const AuthStack = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: "#FFCCFF" },
+          headerTintColor: "#AF7AC5",
+          headerTitleAlign: "center",
+        }}
+      >
+        <Stack.Screen name="Login" component={Login} />
+
+        <Stack.Screen name="Signup" component={Signup} />
+      </Stack.Navigator>
+    );
+  };
+
+  const AppStack = () => {
+    return (
+      <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "FFCCFF" },
+              headerTintColor: "#AF7AC5",
+              tabBarStyle: { backgroundColor: "FFCCFF" },
+              tabBarActiveTintColor: "#AF7AC5",
+              headerTitleStyle: { fontSize: "16", fontWeight: "400" },
+            }}
+          >
+            <Stack.Screen
+              name="screenOverView"
+              component={ScreenOverView}
+              options={{ headerShown: false }} // to disable the native stac header
+            />
+            <Stack.Screen
+              name="postDetails"
+              component={PostDetails}
+              options={{
+                tabBarLabel: "Post",
+                title: "Post",
+              }}
+            />
+            <Stack.Screen
+              name="CreatPost"
+              component={CreatPost}
+              options={{
+                tabBarLabel: "Creat Post",
+                title: "Creat Post",
+              }}
+            />
+            <Stack.Screen
+              name="addTodo"
+              component={AddTodo}
+              options={{
+                tabBarLabel: "Add Todo",
+                title: "Add Todo",
+              }}
+            />
+          </Stack.Navigator>
+    );
+  };
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   return (
-    <>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "FFCCFF" },
-            headerTintColor: "#AF7AC5",
-            tabBarStyle: { backgroundColor: "FFCCFF" },
-            tabBarActiveTintColor: "#AF7AC5",
-            headerTitleStyle: { fontSize: "16", fontWeight: "400" },
-          }}
-        >
-          <Stack.Screen
-            name="screenOverView"
-            component={ScreenOverView}
-            options={{ headerShown: false }} // to disable the native stac header
-          />
-          <Stack.Screen
-            name="postDetails"
-            component={PostDetails}
-            options={{
-              tabBarLabel: "Post",
-              title: "Post",
-            }}
-          />
-          <Stack.Screen
-            name="CreatPost"
-            component={CreatPost}
-            options={{
-              tabBarLabel: "Creat Post",
-              title: "Creat Post",
-            }}
-          />
-          <Stack.Screen
-            name="addTodo"
-            component={AddTodo}
-            options={{
-              tabBarLabel: "Add Todo",
-              title: "Add Todo",
-            }}
-          />
-        </Stack.Navigator>
+        {isUserAuthenticated ? AppStack() : AuthStack()}
       </NavigationContainer>
-    </>
   );
 }
 

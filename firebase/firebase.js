@@ -5,7 +5,10 @@ import { firestore } from "./firebase_setup";
 // post apis
 export async function writePostToDB(post) {
     try {
-        const docRef = await addDoc(collection(firestore, "posts"), post);
+        const docRef = await addDoc(collection(firestore, "posts"), {
+            ...post,
+            owner: auth.currentUser.uid,
+          });
     } catch (err) {
         console.log(err);
     }
@@ -19,23 +22,16 @@ export async function deletePostFromDB(key) {
     }
 }
 
-// todoiterm apis
-export async function writeToDoItemToDB(todoiterm) {
+// notification apis
+export async function writeNotificationToDB(notification) {
     try {
-        const docRef = await addDoc(collection(firestore, "todoiterms"), todoiterm);
+        const docRef = await addDoc(collection(firestore, "notifications"), {
+            ...notification,
+            user: auth.currentUser.uid,
+          });
     } catch (err) {
         console.log(err);
     }
 }
-
-export async function deleteTodoItemFromDB(key) {
-    try {
-        await deleteDoc(doc(firestore, "todoiterms", key));
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-// user apis
 
 

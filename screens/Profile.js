@@ -1,12 +1,14 @@
 import { StyleSheet, View, Text } from "react-native";
 import React from "react";
+import { auth } from "../firebase/firebase_setup";
 // import color from "../helper/color";
 
 const Profile = () => {
 
   return (
     <View style={styles.container}>
-       <Text>This is the Profile Page</Text>
+      <Text>{auth.currentUser.email}</Text>
+      <Text>{auth.currentUser.uid}</Text>
     </View>
   );
 };
