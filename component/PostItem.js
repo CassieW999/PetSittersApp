@@ -1,34 +1,18 @@
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import React from "react";
 import { collection } from "firebase/firestore";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 const PostItem = ({post, PressedPost}) => {
-
-  const toDateTime = (secs)=>{
-    var t = new Date(1970, 0, 1)
-    t.setSeconds(secs)
-    return t
-  }
-
-  const convertDateToStr = (t)=>{
-
-    // var yy = t.getFullYear()
-    // var mm = t.getMonth() + 1
-    // var dd = t.getDate()
-    // return [yy, (mm> 9 ? '':'0') + mm, (dd>9 ? '':'0') +dd].join('-')
-    return t.toISOString().split('T')[0]
-  }
-
 
   return (
     <Pressable onPress={() => {PressedPost()}}
         style={(obj)=>{return obj.pressed&&styles.pressedPost}}>
         <View style={styles.container}>
-          <View style ={styles.postContainer}>
-            <Text style={styles.postText}> {post.pet} </Text>
-            <Text style={styles.postText}> {convertDateToStr(toDateTime(post.from))} </Text>
-            <Text style={styles.postText}> {convertDateToStr(toDateTime(post.to))} </Text>
-          </View>
+          <MaterialCommunityIcons name="account" size={18} color={"gray"} />
+          <Text style={styles.postText}> {post.pet} </Text>
+          <Text style={styles.postText}> {post.from} </Text>
+          <Text style={styles.postText}> {post.to} </Text>
        </View>
     </Pressable>
     
@@ -37,23 +21,17 @@ const PostItem = ({post, PressedPost}) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 8,
-    paddingTop: 30,
+    margin: 8,
+    width: "95%",
+    justifyContent: "space-evenly",
     backgroundColor: "#FFFFFF",
-    //height: "100%",
     flexDirection: "row",
     flex: 1,
-    backgroundColor: '#E1BEE7',
+    height: 150,
+    alignItems: "center",
+    borderRadius: 10,
   },
 
-  postContainer: {
-    marginTop: 20,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 90, 
-  }, 
-  
   pressedPost:{
     backgroundColor: "#9575CD",
     opacity: 0.5,
