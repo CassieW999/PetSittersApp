@@ -2,7 +2,6 @@ import Home from "./screens/Home";
 import PostDetails from "./screens/PostDetails";
 import CreatPost from "./screens/CreatPost";
 import TodoList from "./screens/TodoList";
-import AddTodo from "./screens/AddTodo";
 import Notification from "./screens/Notification";
 import Profile from "./screens/Profile";
 import IconButton from "./component/IconButton";
@@ -39,17 +38,14 @@ const ScreenOverView = () => {
         headerRight: ({ tintColor }) => {
           return (
             <View style={styles.container}>
-              {(route.name === "homePage" || route.name === "Todo") && (
+              {(route.name === "homePage" ) && (
                 <IconButton
                   icon="add"
                   size={24}
                   color={tintColor}
                   onPress={() => {
-                    if (route.name === "Todo") {
-                      navigation.navigate("addTodo");
-                    } else {
                       navigation.navigate("CreatPost");
-                    }
+                    
                   }}
                 />
               )}
@@ -69,14 +65,6 @@ const ScreenOverView = () => {
                 <Button title="Logout" onPress={() => signOut(auth)} />
               )}
 
-              {/* <IconButton
-              icon="location"
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                // navigation.navigate("");
-              }}
-            /> */}
             </View>
           );
         },
@@ -191,14 +179,7 @@ export default function App() {
                 title: "Creat Post",
               }}
             />
-            <Stack.Screen
-              name="addTodo"
-              component={AddTodo}
-              options={{
-                tabBarLabel: "Add Todo",
-                title: "Add Todo",
-              }}
-            />
+    
           </Stack.Navigator>
     );
   };
