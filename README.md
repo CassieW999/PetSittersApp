@@ -23,3 +23,17 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - **Post Detail**: information of the post such as time duration, location, identity, type of pet, etc.
 - **To-Do List**: user could add any scheduled event of the pet sitter as a reminder
 - **Add Todo**: information of todo event such as time, location, description, etc.
+
+## Screenshots
+
+### Home
+
+![Home](https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/Home.png?raw=true)
+
+### CreatePost
+
+![CreatePost](https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/CreatePost.png?raw=true)
+
+### PostDetais
+
+![PostDetais](https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/PostDetais.png?raw=true)
