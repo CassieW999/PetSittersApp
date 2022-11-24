@@ -5,7 +5,10 @@ import { firestore } from "./firebase_setup";
 // post apis
 export async function writePostToDB(post) {
     try {
-        const docRef = await addDoc(collection(firestore, "posts"), post);
+        const docRef = await addDoc(collection(firestore, "posts"), {
+            ...post,
+            owner: auth.currentUser.uid,
+          });
     } catch (err) {
         console.log(err);
     }
@@ -19,6 +22,19 @@ export async function deletePostFromDB(key) {
     }
 }
 
+// notification apis
+export async function writeNotificationToDB(notification) {
+    try {
+        const docRef = await addDoc(collection(firestore, "notifications"), {
+            ...notification,
+            user: auth.currentUser.uid,
+          });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// update accept to true 
 export async function updateAcceptToDB(key, change) {
     try {
         await updateDoc(doc(firestore, "posts", key), change);
@@ -27,23 +43,5 @@ export async function updateAcceptToDB(key, change) {
       }
 }
 
-// todoiterm apis
-export async function writeToDoItemToDB(todoiterm) {
-    try {
-        const docRef = await addDoc(collection(firestore, "todoiterms"), todoiterm);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-export async function deleteTodoItemFromDB(key) {
-    try {
-        await deleteDoc(doc(firestore, "todoiterms", key));
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-// user apis
 
 
