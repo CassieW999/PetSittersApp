@@ -1,5 +1,5 @@
 import { collection, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
-
+import { auth } from "../firebase/firebase_setup";
 import { firestore } from "./firebase_setup";
 
 // post apis
