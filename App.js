@@ -65,6 +65,14 @@ const ScreenOverView = () => {
                 <Button title="Logout" onPress={() => signOut(auth)} />
               )}
 
+              {/* <IconButton
+              icon="location"
+              size={24}
+              color={tintColor}
+              onPress={() => {
+                // navigation.navigate("");
+              }}
+            /> */}
             </View>
           );
         },
