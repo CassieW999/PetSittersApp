@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Button, TextInput, Alert } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState, useEffect} from "react";
+import React, {useState} from "react";
 import { writePostToDB } from '../firebase/firebase';
 
 
@@ -14,17 +14,11 @@ const CreatPost = ({navigation}) => {
 
 
   const onAdd = async (from, to, location, pet, description)=>{
-      await writePostToDB({from: from, to:to, location: location, pet: pet, description: description})
-      navigation.goBack()
+    const fromDate = from.toLocaleDateString('en-US') // toLocaleTimeString
+    const toDate = to.toLocaleDateString("en-US")
+    await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, isAccepted: false})
+    navigation.goBack()
 }
-
-  const confirmButton = ()=>{
-    console.log("confirm")
-  }
-
-  const cancelButton = ()=>{
-    console.log("cancle")
-  }
   
   const onChangeFrom = (event, selectedDate) => {
 
@@ -32,8 +26,6 @@ const CreatPost = ({navigation}) => {
       return;
     }
     setFrom(selectedDate);
-    console.log("seleted from date: ", selectedDate)
-    console.log("date: ", from)
   };
 
   const onChangeTo = (event, selectedDate) => {
@@ -41,23 +33,18 @@ const CreatPost = ({navigation}) => {
       return;
     }
     setTo(selectedDate)
-    console.log("seleted to date: ", selectedDate)
-    console.log("date: ", to)
   };
 
   const pressedDog = () =>{
     setPet("dog")
-    console.log("dog")
   }
 
   const pressedCat = () =>{
     setPet("cat")
-    console.log("cat")
   }
 
   const pressedBoth = () =>{
     setPet("both")
-    console.log("both")
   }
 
 
@@ -65,15 +52,14 @@ const CreatPost = ({navigation}) => {
     <View style={styles.container}>
 
       <View style={styles.timeContainer}>
-        {/* <Text style={styles.textStyle}>Pet Sitter Time: </Text> */}
         <View style={styles.time}>
           <Text style={styles.textStyle}>From: </Text>
-          <DateTimePicker mode="datetime" value={from} onChange={onChangeFrom}/>
+          <DateTimePicker mode="date" value={from} onChange={onChangeFrom}/>
         </View>
 
         <View style={styles.time}>
           <Text style={styles.textStyle}>To: </Text>
-          <DateTimePicker mode="datetime" value={to} onChange={onChangeTo}/>
+          <DateTimePicker mode="date" value={to} onChange={onChangeTo}/>
         </View>
       </View>
 
@@ -99,6 +85,8 @@ const CreatPost = ({navigation}) => {
         <TextInput 
           style = {styles.DescriptionInput}
           value = {description} 
+          multiline={true}
+          blurOnSubmit={true}
           onChangeText={(newDescription) => {
             setDescription(newDescription)
           }}/>
@@ -118,7 +106,7 @@ const CreatPost = ({navigation}) => {
           </View>
           
           <View style = {styles.confirmButtonStyle}>
-            <Button title="Cancel" onPress={cancelButton} color= "purple"/>
+            <Button title="Cancel" onPress={()=>{navigation.goBack()}} color= "purple"/>
           </View>
         </View>
       </View>
@@ -131,13 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     paddingTop: 30,
-    //alignContent: "center",
-    //justifyContent: "center",
-    // backgroundColor: "#FFFFFF",
-    //backgroundColor: "orange",
     height: "100%",
-    // width: "90%", 
-    // marginTop: 50, 
   },
 
   textStyle: {
@@ -158,14 +140,11 @@ const styles = StyleSheet.create({
   time: {
     flexDirection: "row", 
     marginBottom: 7, 
-    // marginLeft: 20, 
   }, 
 
   locationContainer: {
-    // flex: 0.5, 
     marginTop: 20,
     justifyContent: "left",
-    //backgroundColor: "pink",
     flexDirection: "row"
   }, 
 
@@ -186,12 +165,9 @@ const styles = StyleSheet.create({
   }, 
 
   buttonStyle:{
-    //minWidth: 25,
     width: "20%",
-    //marginLeft: 10,
     marginRight: 5,
     borderRadius: 10,
-    //backgroundColor: "AF7AC5",
     borderWidth: 1,
   },
 
@@ -205,8 +181,9 @@ const styles = StyleSheet.create({
     backgroundColor:'white', 
     borderWidth: 1,
     borderRadius: 5,
-    margin: 0, 
     marginLeft: "5%", 
+    textAlignVertical: "top", 
+
   }, 
 
   buttonContainer: {
@@ -214,7 +191,6 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: "center",
     alignContent: "center",
-    //backgroundColor: "yellow", 
   }, 
   input: {
   },
