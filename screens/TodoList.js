@@ -66,7 +66,7 @@ const TodoList = ({navigation}) => {
             return (
               (item.isAccepted && 
                 ((item.owner === auth.currentUser.uid && checked === 'owner') 
-                || (item.sitter === auth.currentUser.uid && checked === 'sitter')) ) ? 
+                || (item.sitterId === auth.currentUser.uid && checked === 'sitter')) ) ? 
               <PostItem post={item} PressedPost={()=>{
                 onPressPost(item)
               }}
