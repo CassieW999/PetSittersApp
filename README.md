@@ -32,6 +32,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - Implemented PostCreate Screen to allow user to create a post and wrote data to Firebase
 - Impletemented PostDetail Screen to display all the detail of post, including pet sitter date, location, pet type and post description etc. Also it allowed user to click the Accept button to update Firebase information that marked it to show in todo list
 - Implemented and design a PostItem component of post list
+- Implemented Notification functionality - when someone accepts a post, the poster and the person who accepts it will get notifications.
 
 ### Chen Yang
 
@@ -39,6 +40,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - Built the UI design and different header for different screens.
 - Designed and implemented the tab-navigation of Home, Todo, Notification and Profile and implemented the navigation inside these main screens.
 - Modified and added screensshots to readme.md.
+- Add Google map static API and enable users to loacte
 
 ### Luhan Wen
 
@@ -46,6 +48,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - implemented the todolist tab to filter by my related posts as owner or sitter
 - implemented the firebase set-up and basic CRUD operations
 - implemented the initial readme.md
+- Add camera functionality to allow users take pictures
 
 ## Screenshots
 
