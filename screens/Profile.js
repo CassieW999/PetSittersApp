@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import React from "react";
 import { auth } from "../firebase/firebase_setup";
 // import color from "../helper/color";
+import LocationManager from "../component/LocationManager";
 
 const Profile = () => {
 
@@ -9,6 +10,7 @@ const Profile = () => {
     <View style={styles.container}>
       <Text>{auth.currentUser.email}</Text>
       <Text>{auth.currentUser.uid}</Text>
+      <LocationManager />
     </View>
   );
 };
