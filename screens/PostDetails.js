@@ -7,6 +7,7 @@ import { writeNotificationToDB, deletePostFromDB } from '../firebase/firebase';
 import * as Notifications from "expo-notifications";
 import { storage } from "../firebase/firebase_setup";
 import { getDownloadURL, ref } from "firebase/storage";
+import LocationManager from "../component/LocationManager";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -207,6 +208,8 @@ const scheduleNotificationHandler = async () => {
             <Button title="Accept" onPress={onPressAccept} color= "purple"/>
           </View>
       </View>
+
+      <Button title="Let me pick on the map" onPress={locationPickerHandler} />
     </View>
   );
 };
