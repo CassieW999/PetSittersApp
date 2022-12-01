@@ -54,6 +54,8 @@ switch(pet){
   default:
     type = "paw"
 }
+
+
 const markAsAccept = async()=>{
 
   if (auth.currentUser.uid != posterId) {
@@ -106,6 +108,10 @@ const onPressAccept = () => {
   }
   
 }
+
+const locationPickerHandler = () => {
+  navigation.navigate("Map", { initialLocation: location });
+};
 
 // NOTIFICATION
 // verify the perssion 
