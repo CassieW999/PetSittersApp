@@ -1,10 +1,12 @@
-import { StyleSheet, View, Text, Button, Alert} from "react-native";
-import React from "react";
+import { StyleSheet, View, Text, Button, Alert, Image} from "react-native";
+import React, { useState, useEffect } from "react";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { updateAcceptToDB } from '../firebase/firebase';
 import { auth } from "../firebase/firebase_setup";
 import { writeNotificationToDB, deletePostFromDB } from '../firebase/firebase';
 import * as Notifications from "expo-notifications";
+import { storage } from "../firebase/firebase_setup";
+import { getDownloadURL, ref } from "firebase/storage";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -19,6 +21,23 @@ const token = route.params.postObject.token
 const currenUserEmail = auth.currentUser.email
 const posterEmail = route.params.postObject.posterEmail
 const isAccepted = route.params.postObject.isAccepted
+const uri = route.params.postObject.uri
+const [imageURL, setImageURL] = useState("");
+
+useEffect(() => {
+  const getImageURL = async () => {
+    try {
+      if (uri) {
+        const reference = ref(storage, uri);
+        const downloadImageURL = await getDownloadURL(reference);
+        setImageURL(downloadImageURL);
+      }
+    } catch (err) {
+      console.log("download image ", err);
+    }
+  };
+  getImageURL();
+}, []);
 
 let type = ""
 switch(pet){
@@ -139,8 +158,15 @@ const scheduleNotificationHandler = async () => {
     <View style={styles.container}>
       <View style={styles.timeContainer}>
         
-      <View style ={styles.userContainer}>
+      {/* <View style ={styles.userContainer}>
         <MaterialCommunityIcons name={type} size={90} color={"gray"} />
+      </View> */}
+
+      <View style ={styles.userContainer}>
+        {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
+        {imageURL && (
+          <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
+        )}
       </View>
 
       <View style={styles.time}>

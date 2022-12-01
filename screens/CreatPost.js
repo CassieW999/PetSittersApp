@@ -2,6 +2,9 @@ import { StyleSheet, View, Text, Button, TextInput, Alert } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, {useState, useEffect} from "react";
 import { writePostToDB } from '../firebase/firebase';
+import { storage } from "../firebase/firebase_setup";
+import ImageManager from "../component/ImageManager";
+import { ref, uploadBytes } from "firebase/storage";
 import { auth } from "../firebase/firebase_setup";
 import * as Notifications from "expo-notifications";
 
@@ -21,45 +24,62 @@ const CreatPost = ({navigation}) => {
   const [bothButtonColor, setBothButtonColor] = useState(unselectedColor)
 
 
-    //get push the token of device
-    const verifyPermission = async () => {
-      const permissionStatus = await Notifications.getPermissionsAsync();
-      if (permissionStatus.granted) {
-        return true;
+  //get push the token of device
+  const verifyPermission = async () => {
+    const permissionStatus = await Notifications.getPermissionsAsync();
+    if (permissionStatus.granted) {
+      return true;
+    }
+    const requestedPermission = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowBadge: true,
+      },
+    });
+    return requestedPermission.granted;
+  };
+
+
+  useEffect(() => {
+    const getPushToken = async () => {
+      const hasPermission = verifyPermission();
+      if (!hasPermission) {
+        return;
       }
-      const requestedPermission = await Notifications.requestPermissionsAsync({
-        ios: {
-          allowBadge: true,
-        },
-      });
-      return requestedPermission.granted;
+      try {
+        const token = await Notifications.getExpoPushTokenAsync();
+        setPushToken(token)
+      } catch (err) {
+        console.log("push token ", err);
+        return null; 
+      }
     };
+    getPushToken();
+  }, []);
+
+
+  const getImage = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      return blob;
+    } catch (err) {
+      console.log("fetch image ", err);
+    }
+  };
   
-  
-    useEffect(() => {
-      const getPushToken = async () => {
-        const hasPermission = verifyPermission();
-        if (!hasPermission) {
-          return;
-        }
-        try {
-          const token = await Notifications.getExpoPushTokenAsync();
-          setPushToken(token)
-        } catch (err) {
-          console.log("push token ", err);
-          return null; 
-        }
-      };
-      getPushToken();
-    }, []);
-
-
-
-  const onAdd = async (from, to, location, pet, description)=>{
+  const onAdd = async (from, to, location, pet, description, uri)=>{
     const fromDate = from.toLocaleDateString('en-US') // toLocaleTimeString
     const toDate = to.toLocaleDateString("en-US")
-    // add posterId to post database 
-    // upload device token to post db
+    if (uri) {
+      const imageBlob = await getImage(uri);
+      const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+      const imageRef = await ref(storage, `images/${imageName}`);
+      const uploadResult = await uploadBytes(imageRef, imageBlob);
+      uri = uploadResult.metadata.fullPath;
+    }
+
+    // await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, uri, isAccepted: false})
+
     await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, isAccepted: false, posterEmail: auth.currentUser.email, token: getPushToken.data, posterId:auth.currentUser.uid})
     navigation.goBack()
 }
@@ -99,6 +119,12 @@ const CreatPost = ({navigation}) => {
     setBothButtonColor(selectedColor)
     setPet("both")
   }
+
+  const [uri, setUri] = useState("");
+  const imageHandler = (uri) => {
+    console.log("imageHandler called", uri);
+    setUri(uri);
+  };
 
 
   return (
@@ -143,17 +169,19 @@ const CreatPost = ({navigation}) => {
           onChangeText={(newDescription) => {
             setDescription(newDescription)
           }}/>
+        <ImageManager imageHandler={imageHandler} />
 
         <View style = {styles.buttonContainer}>
           <View style = {styles.confirmButtonStyle}>
             <Button title="Confirm" onPress={
               ()=>{
-                onAdd(from, to, location, pet, description)
+                onAdd(from, to, location, pet, description, uri)
                 setFrom(new Date())
                 setTo(new Date())
                 setLocation("")
                 setPet("")
                 setDescription("")
+                setUri("")
               }
             } color="purple" />
           </View>
