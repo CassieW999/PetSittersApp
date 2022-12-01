@@ -1,7 +1,9 @@
-import { StyleSheet, View, Text, Button, Alert} from "react-native";
-import React from "react";
+import { StyleSheet, View, Text, Button, Alert, Image} from "react-native";
+import React, { useState, useEffect } from "react";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { updateAcceptToDB } from '../firebase/firebase';
+import { storage } from "../firebase/firebase_setup";
+import { getDownloadURL, ref } from "firebase/storage";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -11,6 +13,23 @@ const pet = route.params.postObject.pet
 const location = route.params.postObject.location
 const description = route.params.postObject.description
 const key = route.params.postObject.key
+const uri = route.params.postObject.uri
+const [imageURL, setImageURL] = useState("");
+
+useEffect(() => {
+  const getImageURL = async () => {
+    try {
+      if (uri) {
+        const reference = ref(storage, uri);
+        const downloadImageURL = await getDownloadURL(reference);
+        setImageURL(downloadImageURL);
+      }
+    } catch (err) {
+      console.log("download image ", err);
+    }
+  };
+  getImageURL();
+}, []);
 
 const markAsAccept = async()=>{
   await updateAcceptToDB(key, {isAccepted: true})
@@ -39,7 +58,10 @@ const onPressAccept = () => {
       <View style={styles.timeContainer}>
         
       <View style ={styles.userContainer}>
-        <MaterialCommunityIcons name="account" size={90} color={"gray"} />
+        {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
+        {imageURL && (
+          <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
+        )}
       </View>
 
         <View style={styles.time}>
