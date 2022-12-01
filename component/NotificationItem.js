@@ -18,7 +18,7 @@ const NotificationItem = ({notification, pressedNotification}) => {
         style={(obj)=>{return obj.pressed&&styles.pressedNotification}}>
             <View style={styles.container}>
             <MaterialCommunityIcons name="bell" size={18} color={"gray"} />
-                <Text style={styles.postText}> {reminder} </Text>
+                <Text> {reminder} </Text>
             </View>
         </Pressable>
         
@@ -46,10 +46,6 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     borderRadius:5, 
   }, 
-
-  postText:{
-    // color: "white"
-  }
 
 });
   
