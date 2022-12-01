@@ -4,6 +4,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { updateAcceptToDB } from '../firebase/firebase';
 import { storage } from "../firebase/firebase_setup";
 import { getDownloadURL, ref } from "firebase/storage";
+import LocationManager from "../component/LocationManager";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -97,6 +98,8 @@ const onPressAccept = () => {
             <Button title="Accept" onPress={onPressAccept} color= "purple"/>
           </View>
         </View>
+      
+      <Button title="Let me pick on the map" onPress={locationPickerHandler} />
 
     </View>
   );

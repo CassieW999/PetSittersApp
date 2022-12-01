@@ -10,7 +10,6 @@ const Profile = () => {
     <View style={styles.container}>
       <Text>{auth.currentUser.email}</Text>
       <Text>{auth.currentUser.uid}</Text>
-      <LocationManager />
     </View>
   );
 };
