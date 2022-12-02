@@ -4,10 +4,10 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { updateAcceptToDB } from '../firebase/firebase';
 import { auth } from "../firebase/firebase_setup";
 import { writeNotificationToDB, deletePostFromDB } from '../firebase/firebase';
-import * as Notifications from "expo-notifications";
 import { storage } from "../firebase/firebase_setup";
 import { getDownloadURL, ref } from "firebase/storage";
 import LocationManager from "../component/LocationManager";
+import {scheduleNotificationHandler} from "../component/NotificationManager";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -56,15 +56,24 @@ switch(pet){
 }
 
 
+const locationPickerHandler = () => {
+  navigation.navigate("Location");
+};
+
+
 const markAsAccept = async()=>{
 
   if (auth.currentUser.uid != posterId) {
-    const notification = {postId: key, receiverId: auth.currentUser.uid, posterId: posterId, receiverEmail: auth.currentUser.email, posterEmail: posterEmail}
+    const notification = {
+      postId: key, 
+      receiverId: auth.currentUser.uid, 
+      posterId: posterId, 
+      receiverEmail: auth.currentUser.email, 
+      posterEmail: posterEmail}
+      
     await writeNotificationToDB(notification)
     await updateAcceptToDB(key, {isAccepted: true})
-    
-    // push notification - how to connect notificationManager?
-    scheduleNotificationHandler()
+    await scheduleNotificationHandler(posterEmail)
     
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: 'POST',
@@ -105,69 +114,12 @@ const onPressAccept = () => {
       'Failed', 
       'The post has already been accepted!'
     )
-  }
-  
+  } 
 }
-
-const locationPickerHandler = () => {
-  navigation.navigate("Map", { initialLocation: location });
-};
-
-// NOTIFICATION
-// verify the perssion 
-const verifyPermission = async () => {
-  const permissionStatus = await Notifications.getPermissionsAsync();
-  if (permissionStatus.granted) {
-    return true;
-  }
-  const requestedPermission = await Notifications.requestPermissionsAsync({
-    ios: {
-      allowBadge: true,
-    },
-  });
-  return requestedPermission.granted;
-};
-
-// delete post
-const deletePost = async () =>{
-  try{
-    await deletePostFromDB(key)
-    navigation.goBack()
-  }catch(err){
-    console.log("delete post error:", err)
-  }
-}
-
-//push notification
-const scheduleNotificationHandler = async () => {
-  try {
-    const hasPermission = await verifyPermission();
-    if (!hasPermission) {
-      return;
-    }
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "You have a notification",
-        body: `You accpted ${posterEmail} post`,
-        color: "red",
-        // data: { url: "https://www.google.ca" },
-      },
-      trigger: {
-        seconds: 2,
-      }, 
-    });
-  } catch (err) {
-    console.log("Error:", err);
-  }
-};
 
   return (
     <View style={styles.container}>
       <View style={styles.timeContainer}>
-        
-      {/* <View style ={styles.userContainer}>
-        <MaterialCommunityIcons name={type} size={90} color={"gray"} />
-      </View> */}
 
       <View style ={styles.userContainer}>
         {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
@@ -209,13 +161,14 @@ const scheduleNotificationHandler = async () => {
         <Text style={styles.inputText}> {description} </Text>
       </View>
 
+      <Button title="Pick a location" onPress={locationPickerHandler} />
+
       <View style = {styles.buttonContainer}>
           <View style = {styles.confirmButtonStyle}>
             <Button title="Accept" onPress={onPressAccept} color= "purple"/>
           </View>
       </View>
 
-      <Button title="Let me pick on the map" onPress={locationPickerHandler} />
     </View>
   );
 };

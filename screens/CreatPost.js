@@ -78,9 +78,16 @@ const CreatPost = ({navigation}) => {
       uri = uploadResult.metadata.fullPath;
     }
 
-    // await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, uri, isAccepted: false})
-
-    await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, isAccepted: false, posterEmail: auth.currentUser.email, token: getPushToken.data, posterId:auth.currentUser.uid})
+    await writePostToDB({
+      from: fromDate, to:toDate, 
+      location: location, 
+      pet: pet, 
+      description: description, 
+      isAccepted: false, 
+      posterEmail: auth.currentUser.email, 
+      token: getPushToken.data, 
+      posterId:auth.currentUser.uid})
+      
     navigation.goBack()
 }
   
