@@ -22,6 +22,18 @@ import { View, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 import Map from "./component/Map";
 import LocationManager from "./component/LocationManager";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: true,
+    };
+  },
+});
+
 
 // Define vars
 const Stack = createNativeStackNavigator();

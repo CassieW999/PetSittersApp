@@ -1,10 +1,12 @@
 import { StyleSheet, View, Text, Button, TextInput, Alert } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { writePostToDB } from '../firebase/firebase';
 import { storage } from "../firebase/firebase_setup";
 import ImageManager from "../component/ImageManager";
 import { ref, uploadBytes } from "firebase/storage";
+import { auth } from "../firebase/firebase_setup";
+import * as Notifications from "expo-notifications";
 
 const CreatPost = ({navigation}) => {
 
@@ -13,12 +15,47 @@ const CreatPost = ({navigation}) => {
   const [location, setLocation] = useState("")
   const [pet, setPet] = useState("")
   const [description, setDescription] = useState("")
+  const [getPushToken, setPushToken] = useState()
 
   const selectedColor = "blue";
   const unselectedColor = "purple";
   const [dogButtonColor, setDogButtonColor] = useState(unselectedColor)
   const [catButtonColor, setCatButtonColor] = useState(unselectedColor)
   const [bothButtonColor, setBothButtonColor] = useState(unselectedColor)
+
+
+  //get push the token of device
+  const verifyPermission = async () => {
+    const permissionStatus = await Notifications.getPermissionsAsync();
+    if (permissionStatus.granted) {
+      return true;
+    }
+    const requestedPermission = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowBadge: true,
+      },
+    });
+    return requestedPermission.granted;
+  };
+
+
+  useEffect(() => {
+    const getPushToken = async () => {
+      const hasPermission = verifyPermission();
+      if (!hasPermission) {
+        return;
+      }
+      try {
+        const token = await Notifications.getExpoPushTokenAsync();
+        setPushToken(token)
+      } catch (err) {
+        console.log("push token ", err);
+        return null; 
+      }
+    };
+    getPushToken();
+  }, []);
+
 
   const getImage = async (uri) => {
     try {
@@ -41,7 +78,16 @@ const CreatPost = ({navigation}) => {
       uri = uploadResult.metadata.fullPath;
     }
 
-    await writePostToDB({from: fromDate, to:toDate, location: location, pet: pet, description: description, uri, isAccepted: false})
+    await writePostToDB({
+      from: fromDate, to:toDate, 
+      location: location, 
+      pet: pet, 
+      description: description, 
+      isAccepted: false, 
+      posterEmail: auth.currentUser.email, 
+      token: getPushToken.data, 
+      posterId:auth.currentUser.uid})
+      
     navigation.goBack()
 }
   
