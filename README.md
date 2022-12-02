@@ -66,4 +66,4 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 ![PostDetais](https://github.com/CassieW999/PetSittersApp/blob/dev_chen/ScreenShots/PostDetais.png?raw=true)
 
 ### Notification
-<img align="left" width="500" height="500" src="https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/notification.png">
+<img align="left" width="450" height="700" src="https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/notification.png">
