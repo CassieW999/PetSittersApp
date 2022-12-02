@@ -1,7 +1,6 @@
 import { View, Image, Button, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-// import { getCurrentPositionAsync } from "expo-location";
 import { MAPS_API_KEY } from "react-native-dotenv";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { saveUser, getUser } from "../firebase/firebase";
@@ -26,7 +25,6 @@ export default function LocationManager() {
   }, []);
   useEffect(() => {
     if (route.params) {
-    //   console.log(route.params);
       setLocation({
         latitude: route.params.currentLocation.latitude,
         longitude: route.params.currentLocation.longitude,
@@ -60,13 +58,17 @@ export default function LocationManager() {
   const locationPickerHandler = () => {
     navigation.navigate("Map", { initialLocation: location });
   };
+
   const saveUserLocation = async () => {
     await saveUser(location);
   };
+
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2]; 
   return (
     <View style={styles.container}>
-      <Button title="Current Location" onPress={locateUserHandler} />
-      {/* <Button title="Let me pick on the map" onPress={locationPickerHandler} /> */}
+      {prevRoute.name === "screenOverView" && (<Button title="Current Location" onPress={locateUserHandler} />)}
+      {prevRoute.name === "postDetails" && (<Button title="Pick a location" onPress={locationPickerHandler} />)}
 
       {location && (
         <Image
@@ -76,6 +78,7 @@ export default function LocationManager() {
           style={{ width: "100%", height: 200,  justifyContent: "center"}}
         />
       )}
+      
       <Button title="Save Location" onPress={saveUserLocation} />
     </View>
   );

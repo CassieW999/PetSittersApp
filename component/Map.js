@@ -14,7 +14,7 @@ export default function ({ route, navigation }) {
   };
 
   const confirmHandler = () => {
-    navigation.navigate("Profile", { currentLocation: currentLocation });
+    navigation.navigate("Location", { currentLocation: currentLocation });
   };
   return (
     <>
