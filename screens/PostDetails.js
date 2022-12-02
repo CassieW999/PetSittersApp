@@ -54,6 +54,10 @@ const onPressAccept = () => {
   ])
 }
 
+const locationPickerHandler = () => {
+  navigation.navigate("Location");
+};
+
   return (
     <View style={styles.container}>
       <View style={styles.timeContainer}>
@@ -93,13 +97,13 @@ const onPressAccept = () => {
         <Text style={styles.inputText}> {description} </Text>
       </View>
 
+      <Button title="Pick a location" onPress={locationPickerHandler} />
+
       <View style = {styles.buttonContainer}>
           <View style = {styles.confirmButtonStyle}>
             <Button title="Accept" onPress={onPressAccept} color= "purple"/>
           </View>
         </View>
-      
-      <Button title="Let me pick on the map" onPress={locationPickerHandler} />
 
     </View>
   );
