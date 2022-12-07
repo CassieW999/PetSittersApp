@@ -1,7 +1,13 @@
-import { StyleSheet, View, Text, Button, Alert} from "react-native";
-import React from "react";
+import { StyleSheet, View, Text, Button, Alert, Image} from "react-native";
+import React, { useState, useEffect } from "react";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { updateAcceptToDB } from '../firebase/firebase';
+import { auth } from "../firebase/firebase_setup";
+import { writeNotificationToDB, deletePostFromDB } from '../firebase/firebase';
+import { storage } from "../firebase/firebase_setup";
+import { getDownloadURL, ref } from "firebase/storage";
+import LocationManager from "../component/LocationManager";
+import {scheduleNotificationHandler} from "../component/NotificationManager";
 
 
 const PostDetails = ({route, navigation}) => {
@@ -11,70 +17,157 @@ const pet = route.params.postObject.pet
 const location = route.params.postObject.location
 const description = route.params.postObject.description
 const key = route.params.postObject.key
+const posterId = route.params.postObject.posterId
+const token = route.params.postObject.token
+const currenUserEmail = auth.currentUser.email
+const posterEmail = route.params.postObject.posterEmail
+const isAccepted = route.params.postObject.isAccepted
+const uri = route.params.postObject.uri
+const [imageURL, setImageURL] = useState("");
+
+useEffect(() => {
+  const getImageURL = async () => {
+    try {
+      if (uri) {
+        const reference = ref(storage, uri);
+        const downloadImageURL = await getDownloadURL(reference);
+        setImageURL(downloadImageURL);
+      }
+    } catch (err) {
+      console.log("download image ", err);
+    }
+  };
+  getImageURL();
+}, []);
+
+let type = ""
+switch(pet){
+  case "dog": 
+    type = "dog"
+    break
+  case "cat": 
+    type = "cat"
+    break
+  case "both": 
+    type = "paw"
+    break
+  default:
+    type = "paw"
+}
+
+
+const locationPickerHandler = () => {
+  navigation.navigate("Location");
+};
+
 
 const markAsAccept = async()=>{
-  await updateAcceptToDB(key, {isAccepted: true})
+
+  if (auth.currentUser.uid != posterId) {
+    const notification = {
+      postId: key, 
+      receiverId: auth.currentUser.uid, 
+      posterId: posterId, 
+      receiverEmail: auth.currentUser.email, 
+      posterEmail: posterEmail}
+      
+    await writeNotificationToDB(notification)
+    await updateAcceptToDB(key, {isAccepted: true})
+    await scheduleNotificationHandler(posterEmail)
+    
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: token, 
+        title: "Push notofication", 
+        body: `Your post was accepted by ${currenUserEmail}`
+      }),
+    })
+  } 
+  else{
+      Alert.alert("You cannot accept your own post")
+  }
   navigation.goBack()
 }
 
 const onPressAccept = () => {
-  Alert.alert(
-    'Accept to pet sitting?', 
-    'Are you sure to provide petsitting?',
-    [{
-      text: "Cancel",
-      onPress: () => {},
-      style: "cancel",
-    },
-    {
-      text: "Confirm",
-      onPress: () => {markAsAccept()},
-      style: "done",
-    }
-  ])
+  if(!isAccepted){
+    Alert.alert(
+      'Accept to pet sitting?', 
+      'Are you sure to provide petsitting?',
+      [{
+        text: "Cancel",
+        onPress: () => {},
+        style: "cancel",
+      },
+      {
+        text: "Confirm",
+        onPress: () => {markAsAccept()},
+        style: "done",
+      }
+    ])
+  }else{
+    Alert.alert(
+      'Failed', 
+      'The post has already been accepted!'
+    )
+  } 
 }
 
   return (
     <View style={styles.container}>
       <View style={styles.timeContainer}>
-        
+
       <View style ={styles.userContainer}>
-        <MaterialCommunityIcons name="account" size={90} color={"gray"} />
+        {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
+        {imageURL && (
+          <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
+        )}
       </View>
+
+      <View style={styles.time}>
+          <Text style={styles.textStyle}>Owner: </Text>
+          <Text style={styles.contentStyle}> {posterEmail} </Text>
+        </View>
 
         <View style={styles.time}>
           <Text style={styles.textStyle}>From: </Text>
-          <Text style={styles.textStyle}> {from} </Text>
+          <Text style={styles.contentStyle}> {from} </Text>
         </View>
 
         <View style={styles.time}>
           <Text style={styles.textStyle}>To: </Text>
-          <Text style={styles.textStyle}> {to} </Text>
+          <Text style={styles.contentStyle}> {to} </Text>
         </View>
       </View>
 
       <View style = {styles.locationContainer}>
         <Text style={styles.textStyle}>Location: </Text>
-        <Text style={styles.textStyle}> {location} </Text>
+        <Text style={styles.contentStyle}> {location} </Text>
 
       </View>
 
       <View style = {styles.petContainer}>
         <Text style={styles.textStyle}>Pet Type: </Text>
-        <Text style={styles.textStyle}> {pet} </Text>
+        <Text style={styles.contentStyle}> {pet} </Text>
         
       </View>
        
       <View style = {styles.descriptionContainer}>
-        <Text style={styles.descripText}>Description: </Text>
+        <Text style={styles.textStyle}>Description: </Text>
         <Text style={styles.inputText}> {description} </Text>
       </View>
+
+      <Button title="Pick a location" onPress={locationPickerHandler} />
 
       <View style = {styles.buttonContainer}>
           <View style = {styles.confirmButtonStyle}>
             <Button title="Accept" onPress={onPressAccept} color= "purple"/>
           </View>
-        </View>
+      </View>
 
     </View>
   );
@@ -93,12 +186,20 @@ const styles = StyleSheet.create({
   }, 
   textStyle: {
     marginTop: 10, 
-    marginLeft: "16%", 
+    marginLeft: "15%", 
     marginBottom: 5,
     width: "25%",
     fontSize: 16,
     alignItems: "center"
   }, 
+
+  contentStyle:{
+    marginTop: 10, 
+    marginLeft: "15%", 
+    marginBottom: 5,
+    fontSize: 16,
+    alignItems: "center"
+  },
   
   timeContainer:{
     alignContent: "center",
@@ -134,16 +235,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   }, 
 
-  descripText: {
-    marginTop: 10, 
-    marginLeft: "16%", 
-    marginBottom: 5,
-    width: "50%",
-    fontSize: 20,
-    alignItems: "center", 
-
-  }, 
-
   buttonContainer: {
     marginTop: 30,
     flexDirection: "row", 
@@ -173,11 +264,14 @@ const styles = StyleSheet.create({
   }, 
   inputText: {
     marginTop: 10, 
-    marginLeft: "16%", 
+    marginLeft: "15%", 
     marginBottom: 5,
-    width: "90%",
+    width: "70%",
     fontSize: 15,
-    height: 50, 
+    height: 100, 
+    borderWidth: 1,
+    backgroundColor: "#fff",
+    borderRadius: 10,
     alignItems: "center",
   }
 

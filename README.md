@@ -30,8 +30,10 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 
 - Implemented home screen to show post list
 - Implemented PostCreate Screen to allow user to create a post and wrote data to Firebase
-- Impletemented PostDetail Screen to display all the detail of post, including pet sitter date, location, pet type and post description etc. Also it allowed user to click the Accept button to update Firebase information that marked it to show in todo list
+- Implemented PostDetail Screen to display all the detail of post, including pet sitter date, location, pet type and post description etc. Also it allowed user to click the Accept button to update Firebase information that marked it to show in todo list
 - Implemented and design a PostItem component of post list
+- Implemented Notification functionality - when someone accepts a post, the poster and the person who accepts it will get notifications.
+- Implemented NotificationItem and Notication screen. It keeps tracking user's post update. Also, user can also press post notification jumping into the PostDetail screen 
 
 ### Chen Yang
 
@@ -39,6 +41,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - Built the UI design and different header for different screens.
 - Designed and implemented the tab-navigation of Home, Todo, Notification and Profile and implemented the navigation inside these main screens.
 - Modified and added screensshots to readme.md.
+- Add Google map static API and enable users to loacte
 
 ### Luhan Wen
 
@@ -47,6 +50,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - implemented the todolist screen to filter by my related posts as owner or sitter
 - implemented the firebase set-up and basic CRUD operations
 - implemented the initial readme.md
+- Add camera functionality to allow users take pictures
 
 ## Screenshots
 
@@ -61,3 +65,6 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 ### PostDetais
 
 ![PostDetais](https://github.com/CassieW999/PetSittersApp/blob/dev_chen/ScreenShots/PostDetais.png?raw=true)
+
+### Notification
+<img align="left" width="400" height="850" src="https://github.com/CassieW999/PetSittersApp/blob/main/ScreenShots/notification.png">

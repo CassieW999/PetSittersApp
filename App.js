@@ -20,6 +20,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
+import Map from "./component/Map";
+import LocationManager from "./component/LocationManager";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: true,
+    };
+  },
+});
 
 
 // Define vars
@@ -38,14 +51,13 @@ const ScreenOverView = () => {
         headerRight: ({ tintColor }) => {
           return (
             <View style={styles.container}>
-              {(route.name === "homePage" ) && (
+              {route.name === "homePage" && (
                 <IconButton
                   icon="add"
                   size={24}
                   color={tintColor}
                   onPress={() => {
-                      navigation.navigate("CreatPost");
-                    
+                    navigation.navigate("CreatPost");
                   }}
                 />
               )}
@@ -56,7 +68,7 @@ const ScreenOverView = () => {
                   size={24}
                   color={tintColor}
                   onPress={() => {
-                    // navigation.navigate("");
+                    navigation.navigate("Location");
                   }}
                 />
               )}
@@ -158,44 +170,45 @@ export default function App() {
   const AppStack = () => {
     return (
       <Stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: "FFCCFF" },
-              headerTintColor: "#AF7AC5",
-              tabBarStyle: { backgroundColor: "FFCCFF" },
-              tabBarActiveTintColor: "#AF7AC5",
-              headerTitleStyle: { fontSize: "16", fontWeight: "400" },
-            }}
-          >
-            <Stack.Screen
-              name="screenOverView"
-              component={ScreenOverView}
-              options={{ headerShown: false }} // to disable the native stac header
-            />
-            <Stack.Screen
-              name="postDetails"
-              component={PostDetails}
-              options={{
-                tabBarLabel: "Post",
-                title: "Post",
-              }}
-            />
-            <Stack.Screen
-              name="CreatPost"
-              component={CreatPost}
-              options={{
-                tabBarLabel: "Creat Post",
-                title: "Creat Post",
-              }}
-            />
-    
-          </Stack.Navigator>
+        screenOptions={{
+          headerStyle: { backgroundColor: "FFCCFF" },
+          headerTintColor: "#AF7AC5",
+          tabBarStyle: { backgroundColor: "FFCCFF" },
+          tabBarActiveTintColor: "#AF7AC5",
+          headerTitleStyle: { fontSize: "16", fontWeight: "400" },
+        }}
+      >
+        <Stack.Screen
+          name="screenOverView"
+          component={ScreenOverView}
+          options={{ headerShown: false }} // to disable the native stac header
+        />
+        <Stack.Screen
+          name="postDetails"
+          component={PostDetails}
+          options={{
+            tabBarLabel: "Post",
+            title: "Post",
+          }}
+        />
+        <Stack.Screen
+          name="CreatPost"
+          component={CreatPost}
+          options={{
+            tabBarLabel: "Creat Post",
+            title: "Creat Post",
+          }}
+        />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Location" component={LocationManager} />
+      </Stack.Navigator>
     );
   };
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   return (
-      <NavigationContainer>
-        {isUserAuthenticated ? AppStack() : AuthStack()}
-      </NavigationContainer>
+    <NavigationContainer>
+      {isUserAuthenticated ? AppStack() : AuthStack()}
+    </NavigationContainer>
   );
 }
 

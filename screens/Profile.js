@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import React from "react";
 import { auth } from "../firebase/firebase_setup";
 // import color from "../helper/color";
+import LocationManager from "../component/LocationManager";
 
 const Profile = () => {
 
