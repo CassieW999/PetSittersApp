@@ -42,8 +42,9 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 
 ### Luhan Wen
 
+- implemented the camera function for users to upload and show their pets' photoes
 - implemented authentification features such as login, regitster and signout
-- implemented the todolist tab to filter by my related posts as owner or sitter
+- implemented the todolist screen to filter by my related posts as owner or sitter
 - implemented the firebase set-up and basic CRUD operations
 - implemented the initial readme.md
 
