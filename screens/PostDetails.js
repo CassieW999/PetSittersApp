@@ -122,7 +122,7 @@ const onPressAccept = () => {
       <View style={styles.timeContainer}>
 
       <View style ={styles.userContainer}>
-        {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
+        {!imageURL && <MaterialCommunityIcons name={type} size={90} color={"gray"} />}
         {imageURL && (
           <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
         )}
