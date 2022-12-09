@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Button, Alert, Image, Pressable } from "react-native";
 import React, { useState } from "react";
 import { auth } from "../firebase/firebase_setup";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -17,6 +17,20 @@ export default function Login({ navigation }) {
   };
   return (
     <View style={styles.authContent}>
+      {/* <Image
+        source={{
+          uri: `https://pic.mail.163.com/coremail/fcg/imgapp?funcid=thumbnail&sid=cAJQOMhXKNdNjdpSdZXXeHztDmdsASZQ&mid=188%3A1tbivBzSkmASaOtu1AACsp&off=1819&len=102712&enc=base64&conttype=image/jpeg&width=429&height=200&needoriginal=1`,
+        }}
+        style={styles.image}
+        resizeMode="cover"
+      /> */}
+      <Image
+        source={{
+          uri: `https://ts1.cn.mm.bing.net/th/id/R-C.c02143e4112f72c468940d58ecc2d95e?rik=LdmRoCR%2freEwag&riu=http%3a%2f%2falstyle.xmyeditor.com%2fsucai-png%2f20200810%2f5f30eee828931dghrdljghv.stakukifvdrxiqmkutwskdtiistzfb&ehk=QDGt5N0Fuuix9g73m3oV8cubMxFNW%2f7VN%2fSYk32lWqU%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1`,
+        }}
+        style={styles.image}
+        resizeMode="cover"
+      />
       <Text style={styles.label}>Email Address</Text>
       <TextInput
         placeholder="Email"
@@ -33,15 +47,13 @@ export default function Login({ navigation }) {
         value={password}
         placeholder="Password"
       />
-      <View style={styles.button}>
-        <Button title="Log In" onPress={handleLogin} />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title="New User? Create an account"
-          onPress={() => navigation.replace("Signup")}
-        />
-      </View>
+      <Pressable style={styles.button} onPress={handleLogin}>
+        <Text style={styles.text}>Log In</Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => navigation.replace("Signup")}>
+        <Text style={styles.text}>New User?</Text>
+        <Text style={styles.text}>Create an account</Text>
+      </Pressable>
     </View>
   );
 }
@@ -49,14 +61,18 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   authContent: {
     padding: 16,
+    paddingTop: 5,
     flex: 1,
     justifyContent: "center",
+    backgroundColor:"#D8BFD8",
   },
   inputContainer: {
     marginVertical: 8,
   },
   label: {
+    marginTop:15,
     marginBottom: 4,
+    color: "#9370DB",
   },
 
   input: {
@@ -64,10 +80,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderRadius: 4,
     fontSize: 16,
-    borderColor: "black",
-    borderWidth: 2,
+    backgroundColor: "#FAEBD7",
   },
   button: {
-    marginTop: 5,
+    fontSize: 2,
+    minHeight: 20,
+    marginTop: 20,
+    paddingVertical:3,
+    marginHorizontal: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    backgroundColor: '#9370DB',
+  },
+  text: {
+    fontSize: 15,
+    lineHeight: 21,
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  image: {
+    width: "35%",
+    height: "12%",
+    alignSelf: "center",
   },
 });
