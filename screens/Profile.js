@@ -7,6 +7,9 @@ import PostItem from '../component/PostItem';
 import LocationManager from "../component/LocationManager";
 
 const Profile = () => {
+  const onPressPost = (post) =>{
+    // navigation.navigate("postDetails", {postObject:post})
+  }
   const [posts, setPosts] = useState([])
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(firestore, "posts"), 
@@ -67,6 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: "center",
     alignContent: "center",
+  },
+  postContainer: {
+    height: 450
   },
   titletext:{
     margin: 25,

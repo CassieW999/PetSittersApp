@@ -72,7 +72,7 @@ const markAsAccept = async()=>{
       posterEmail: posterEmail}
       
     await writeNotificationToDB(notification)
-    await updateAcceptToDB(key, {isAccepted: true})
+    await updateAcceptToDB(key, {isAccepted: true, sitterId: auth.currentUser.uid})
     await scheduleNotificationHandler(posterEmail)
     
     await fetch("https://exp.host/--/api/v2/push/send", {
