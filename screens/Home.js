@@ -59,7 +59,7 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     padding: 8,
-    backgroundColor: "lightgrey",
+    backgroundColor: 	"#D8BFD8",
     height: "100%",
     
   },
