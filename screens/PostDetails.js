@@ -122,7 +122,7 @@ const onPressAccept = () => {
       <View style={styles.timeContainer}>
 
       <View style ={styles.userContainer}>
-        {!imageURL && <MaterialCommunityIcons name="account" size={90} color={"gray"} />}
+        {!imageURL && <MaterialCommunityIcons name={type} size={90} color={"gray"} />}
         {imageURL && (
           <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
         )}
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
 
   contentStyle:{
     marginTop: 10, 
-    marginLeft: "15%", 
+    marginLeft: "5%", 
     marginBottom: 5,
     fontSize: 16,
     alignItems: "center"
@@ -261,6 +261,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     borderWidth: 1,
     borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
   }, 
   inputText: {
     marginTop: 10, 

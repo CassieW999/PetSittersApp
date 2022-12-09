@@ -34,6 +34,7 @@ The aim of the App is for people to look for a pet sitter or volunteer to be a s
 - Implemented and design a PostItem component of post list
 - Implemented Notification functionality - when someone accepts a post, the poster and the person who accepts it will get notifications.
 - Implemented NotificationItem and Notication screen. It keeps tracking user's post update. Also, user can also press post notification jumping into the PostDetail screen 
+- Modified post style
 
 ### Chen Yang
 

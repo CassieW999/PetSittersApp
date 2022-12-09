@@ -84,6 +84,7 @@ const CreatPost = ({navigation}) => {
       pet: pet, 
       description: description, 
       isAccepted: false, 
+      uri,
       posterEmail: auth.currentUser.email, 
       token: getPushToken.data, 
       posterId:auth.currentUser.uid})
