@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
 
   contentStyle:{
     marginTop: 10, 
-    marginLeft: "15%", 
+    marginLeft: "5%", 
     marginBottom: 5,
     fontSize: 16,
     alignItems: "center"
@@ -261,6 +261,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     borderWidth: 1,
     borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
   }, 
   inputText: {
     marginTop: 10, 

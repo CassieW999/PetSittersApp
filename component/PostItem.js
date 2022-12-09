@@ -23,12 +23,27 @@ const PostItem = ({post, PressedPost}) => {
     getImageURL();
   }, []);
 
+  let type = ""
+  switch(post.pet){
+    case "dog": 
+      type = "dog"
+      break
+    case "cat": 
+      type = "cat"
+      break
+    case "both": 
+      type = "paw"
+      break
+    default:
+      type = "paw"
+  }
+
 return (
   <Pressable onPress={() => {PressedPost()}}
       style={(obj)=>{return obj.pressed&&styles.pressedPost}}>
       <View style={styles.container}>
         <View style ={styles.userContainer}>
-        {!imageURL && <MaterialCommunityIcons name="account" size={70} color={"gray"} />}
+        {!imageURL && <MaterialCommunityIcons name={type} size={70} color={"gray"} />}
         {imageURL && (
           <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
         )}
@@ -70,7 +85,6 @@ const styles = StyleSheet.create({
     height: 125,
     alignItems: "center",
     borderRadius: 10,
-    // backgroundColor: "pink",
   },
   userContainer:{
     alignItems: "center", 
@@ -92,7 +106,6 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: "15", 
     marginBottom: 5,
-    marginRight: 5,  
   }, 
 
 });
