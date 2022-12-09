@@ -19,7 +19,7 @@ export default function Login({ navigation }) {
     <View style={styles.authContent}>
       {/* <Image
         source={{
-          uri: `https://pic.mail.163.com/coremail/fcg/imgapp?funcid=thumbnail&sid=cAJQOMhXKNdNjdpSdZXXeHztDmdsASZQ&mid=188%3A1tbivBzSkmASaOtu1AACsp&off=1819&len=102712&enc=base64&conttype=image/jpeg&width=429&height=200&needoriginal=1`,
+          uri: `https://github.com/CassieW999/PetSittersApp/blob/main/assets/20221209010010.jpg?raw=true`,
         }}
         style={styles.image}
         resizeMode="cover"
