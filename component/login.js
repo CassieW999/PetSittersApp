@@ -17,13 +17,13 @@ export default function Login({ navigation }) {
   };
   return (
     <View style={styles.authContent}>
-      {/* <Image
+      <Image
         source={{
-          uri: `https://github.com/CassieW999/PetSittersApp/blob/main/assets/20221209010010.jpg?raw=true`,
+          uri: `http://m.qpic.cn/psc?/V14cWuDq2zd7rR/bqQfVz5yrrGYSXMvKr.cqX.z4TClcIbLujtGdtjG7aJxsfHrjdieG9BMa4xI3bxE80sOH64O.yMUQ4RrnFZdkyGOtiZr7.nzZzpOWPT1QVk!/b&bo=1wGwANcBsAABByA!&rf=viewer_4`,
         }}
-        style={styles.image}
+        style={styles.image_title}
         resizeMode="cover"
-      /> */}
+      />
       <Image
         source={{
           uri: `https://ts1.cn.mm.bing.net/th/id/R-C.c02143e4112f72c468940d58ecc2d95e?rik=LdmRoCR%2freEwag&riu=http%3a%2f%2falstyle.xmyeditor.com%2fsucai-png%2f20200810%2f5f30eee828931dghrdljghv.stakukifvdrxiqmkutwskdtiistzfb&ehk=QDGt5N0Fuuix9g73m3oV8cubMxFNW%2f7VN%2fSYk32lWqU%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1`,
@@ -101,6 +101,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "35%",
+    height: "12%",
+    alignSelf: "center",
+    marginTop:40,
+  },
+  image_title: {
+    width: "75%",
     height: "12%",
     alignSelf: "center",
   },
