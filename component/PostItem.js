@@ -1,16 +1,38 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
-import React from "react";
+import { StyleSheet, View, Pressable, Text, Image} from "react-native";
+import React, { useState, useEffect } from "react";
 import { collection } from "firebase/firestore";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import { storage } from "../firebase/firebase_setup";
+import { getDownloadURL, ref } from "firebase/storage";
 
 const PostItem = ({post, PressedPost}) => {
+  const [imageURL, setImageURL] = useState("");
 
+  useEffect(() => {
+    const getImageURL = async () => {
+      try {
+        if (post.uri) {
+          const reference = ref(storage, post.uri);
+          const downloadImageURL = await getDownloadURL(reference);
+          setImageURL(downloadImageURL);
+        }
+      } catch (err) {
+        console.log("download image ", err);
+      }
+    };
+    getImageURL();
+  }, []);
 
 return (
   <Pressable onPress={() => {PressedPost()}}
       style={(obj)=>{return obj.pressed&&styles.pressedPost}}>
       <View style={styles.container}>
-        <MaterialCommunityIcons name="account" size={70} color={"gray"} />
+        <View style ={styles.userContainer}>
+        {!imageURL && <MaterialCommunityIcons name="account" size={70} color={"gray"} />}
+        {imageURL && (
+          <Image source={{ uri: imageURL }} style={{ width: 100, height: 100 }} />
+        )}
+      </View>
         <View style={styles.info}>
           <View style={styles.detail}>
             <Text style={styles.postText}> Type: </Text>
@@ -50,7 +72,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // backgroundColor: "pink",
   },
-
+  userContainer:{
+    alignItems: "center", 
+    marginBottom: 10, 
+  }, 
   pressedPost:{
     backgroundColor: "#9575CD",
     opacity: 0.5,
