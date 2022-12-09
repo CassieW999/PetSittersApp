@@ -67,8 +67,8 @@ export default function LocationManager() {
   const prevRoute = routes[routes.length - 2]; 
   return (
     <View style={styles.container}>
-      {prevRoute.name === "screenOverView" && (<Button title="Current Location" onPress={locateUserHandler} />)}
-      {prevRoute.name === "postDetails" && (<Button title="Pick a location" onPress={locationPickerHandler} />)}
+      {prevRoute.name === "screenOverView" && (<Button title="Current Location" color="#AF7AC5" onPress={locateUserHandler} />)}
+      {prevRoute.name === "postDetails" && (<Button title="Pick a location" color="#AF7AC5" onPress={locationPickerHandler} />)}
 
       {location && (
         <Image
@@ -79,7 +79,7 @@ export default function LocationManager() {
         />
       )}
       
-      <Button title="Save Location" onPress={saveUserLocation} />
+      <Button title="Save Location" color="#AF7AC5" onPress={saveUserLocation} />
     </View>
   );
 }

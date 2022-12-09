@@ -161,11 +161,11 @@ const onPressAccept = () => {
         <Text style={styles.inputText}> {description} </Text>
       </View>
 
-      <Button title="Pick a location" onPress={locationPickerHandler} />
+      <Button title="Pick a location" color="#AF7AC5" onPress={locationPickerHandler} />
 
       <View style = {styles.buttonContainer}>
           <View style = {styles.confirmButtonStyle}>
-            <Button title="Accept" onPress={onPressAccept} color= "purple"/>
+            <Button title="Accept" onPress={onPressAccept} color="#AF7AC5"/>
           </View>
       </View>
 

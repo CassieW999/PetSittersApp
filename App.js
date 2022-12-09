@@ -47,7 +47,7 @@ const ScreenOverView = () => {
         headerTintColor: "#AF7AC5",
         tabBarStyle: { backgroundColor: "FFCCFF" },
         tabBarActiveTintColor: "#AF7AC5",
-        headerTitleStyle: { fontSize: "16", fontWeight: "400" },
+        headerTitleStyle: { fontSize: "20", fontWeight: "400" },
         headerRight: ({ tintColor }) => {
           return (
             <View style={styles.container}>
@@ -74,7 +74,7 @@ const ScreenOverView = () => {
               )}
 
               {route.name === "Profile" && (
-                <Button title="Logout" onPress={() => signOut(auth)} />
+                <Button title="Logout" color="#AF7AC5" onPress={() => signOut(auth)} />
               )}
 
               {/* <IconButton
