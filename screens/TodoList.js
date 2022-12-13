@@ -42,18 +42,18 @@ const TodoList = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.radioButtonList}>
         <View style={styles.radioButtonContainer}>
-          <Text>Owner</Text>
+          <Text style={styles.titleText}>Owner</Text>
           <RadioButton
-            color="#AF7AC5"
+            color="#fff"
             value="owner"
             status={ checked === 'owner' ? 'checked' : 'unchecked' }
             onPress={() => setChecked('owner')}
           />
         </View>
         <View style={styles.radioButtonContainer}>
-          <Text>Sitter</Text>
+          <Text style={styles.titleText}>Sitter</Text>
           <RadioButton
-            color="#AF7AC5"
+            color="#fff"
             value="sitter"
             status={ checked === 'sitter' ? 'checked' : 'unchecked' }
             onPress={() => setChecked('sitter')}
@@ -91,9 +91,10 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 65
   },
   radioButtonContainer: {
-    margin: 8,
+    margin: 10,
     width: "30%",
     flexWrap:'nowrap'
   },
@@ -103,6 +104,11 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#878787"
   }
 
 });
